@@ -5,6 +5,10 @@ from .clinical import (
     DischargeStatus, MonitoringRequirement, ReturnPrecaution, FollowUp
 )
 from .record import ProcessingMetadata, PatientRecord, PatientDatabase
+from .state import (
+    CompetingValue, Conflict, SectionStatus, ClinicalState,
+    ResolutionStatus, SectionStatusValue,
+)
 
 __all__ = [
     # Base Models
@@ -30,8 +34,16 @@ __all__ = [
     "ReturnPrecaution",
     "FollowUp",
     
-    # Record Models
+    # Record Models (Final Output)
     "ProcessingMetadata",
     "PatientRecord",
     "PatientDatabase",
+
+    # State Models (Intermediate Representation)
+    "CompetingValue",
+    "Conflict",
+    "SectionStatus",
+    "ClinicalState",
+    "ResolutionStatus",
+    "SectionStatusValue",
 ]
