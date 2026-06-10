@@ -8,6 +8,8 @@ Keep all prompt text in this file so it can be iterated on independently
 of the builder logic.
 """
 
+from src.agents.prompts.common import build_pages_text
+
 SYSTEM_INSTRUCTION = (
     "You are a clinical data extraction specialist. "
     "Your task is to extract patient demographic and identification "
@@ -85,25 +87,6 @@ Respond with this exact JSON structure:
     ]
 }}
 """
-
-
-def build_pages_text(extraction_json: dict) -> str:
-    """
-    Concatenates all successful page transcriptions into a single
-    text block for the LLM prompt, clearly marking page boundaries.
-    """
-    parts = []
-    pages = extraction_json.get("pages", {})
-
-    for page_key in sorted(pages.keys(), key=lambda k: pages[k].get("page_number", 0)):
-        page = pages[page_key]
-        if page.get("status") == "Success" and page.get("transcription"):
-            parts.append(
-                f"=== PAGE {page['page_number']} ===\n"
-                f"{page['transcription']}\n"
-            )
-
-    return "\n".join(parts)
 
 
 def build_user_prompt(extraction_json: dict) -> str:

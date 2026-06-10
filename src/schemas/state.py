@@ -160,41 +160,30 @@ class ClinicalState(BaseModel):
     )
 
     # ── Clinical Knowledge Sections (mirror PatientRecord) ───
-    # Section 1: Demographics & identifiers
     patient_details: Optional[PatientDetails] = None
 
-    # Section 2: Admission context
     admission_details: Optional[AdmissionDetails] = None
 
-    # Section 3: All diagnostic findings
     diagnoses: List[Diagnosis] = Field(default_factory=list)
 
-    # Section 4: Surgical / interventional procedures
     procedures: List[Procedure] = Field(default_factory=list)
 
-    # Section 5: Labs, radiology, pathology
     investigations: List[Investigation] = Field(default_factory=list)
 
-    # Section 6: Medication lifecycle
     medications: List[Medication] = Field(default_factory=list)
 
-    # Section 7: Narrative timeline of the hospitalization
     hospital_course: Optional[HospitalCourse] = None
 
-    # Section 8: Condition at discharge
     discharge_status: Optional[DischargeStatus] = None
 
-    # Section 9: Post-discharge plan
     follow_up: Optional[FollowUp] = None
 
-    # Section 10: Clinical & data quality flags
     flags: List[Flag] = Field(default_factory=list)
 
     # ── Reasoning-Only Sections ──────────────────────────────
-    # Section 11: Unresolved contradictions between sources
     conflicts: List[Conflict] = Field(default_factory=list)
 
-    # Section 12: Per-section readiness map for planner queries
+    # Per-section readiness map for planner queries
     completeness_tracker: Dict[str, SectionStatus] = Field(
         default_factory=lambda: {
             "patient_details": SectionStatus(),
