@@ -37,6 +37,7 @@ from src.agents.builders.medications_builder import MedicationsBuilder
 from src.agents.builders.hospital_course_builder import HospitalCourseBuilder
 from src.agents.builders.discharge_status_builder import DischargeStatusBuilder
 from src.agents.builders.follow_up_builder import FollowUpBuilder
+# from .. agents.builders.follow_up_builder import FollowUpBuilder
 
 
 # ── Builder registry ────────────────────────────────────────

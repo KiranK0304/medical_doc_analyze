@@ -32,7 +32,11 @@ DATA_DIR = Path(__file__).parent / "data"
 # Automatically create the folder if it does not exist
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-API_KEY = os.getenv("GEMINI_API_KEY")
+# Load API keys – Gemini and/or OpenRouter
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+LLM_API_KEY = os.getenv("LLM_API")
+# Builders will use whichever key is available; llm_client will route based on LLM_API env var
+BUILDER_API_KEY = LLM_API_KEY or GEMINI_API_KEY
 TARGET_PDF_NAME = "clinical_chart.pdf"  # Put this file in data/raw_pdfs/
 
 # Setup directory maps natively using clean Path structures
@@ -41,9 +45,15 @@ RAW_PDF_DIR = BASE_DIR / "data" / "raw_pdfs"
 INTERIM_IMG_DIR = BASE_DIR / "data" / "interim_images"
 STRUCTURED_JSON_DIR = BASE_DIR / "data" / "structured_json"
 
+# Path for cached extraction JSON (Phase 3 output)
+EXTRACTION_JSON_PATH = STRUCTURED_JSON_DIR / f"{Path(TARGET_PDF_NAME).stem}_extracted.json"
+# Flag to skip expensive VLM phases if extraction JSON already exists
+SKIP_EXTRACTION = EXTRACTION_JSON_PATH.exists()
+
+
 def main():
-    if not API_KEY:
-        print("❌ Aborting. GEMINI_API_KEY not found in environment or .env file.")
+    if not BUILDER_API_KEY:
+        print("❌ Aborting. Neither GEMINI_API_KEY nor LLM_API found in environment.")
         return
 
     target_pdf_path = RAW_PDF_DIR / TARGET_PDF_NAME
